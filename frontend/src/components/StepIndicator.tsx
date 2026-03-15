@@ -1,4 +1,4 @@
-const STEPS = ['Upload', 'Transcribe', 'Generate', 'Preview', 'Publish'];
+const STEPS = ['Upload', 'Transcribe', 'Posts', 'Scheduled'];
 
 interface StepIndicatorProps {
   current: number; // 1-based

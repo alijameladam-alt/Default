@@ -1,10 +1,22 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.config import settings
+from backend import db, scheduler
 from backend.routers import upload, transcription, generation, linkedin
 
-app = FastAPI(title="Video to LinkedIn Post")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db.init_db()
+    scheduler.start_scheduler()
+    yield
+    scheduler.stop_scheduler()
+
+
+app = FastAPI(title="Video to LinkedIn Post", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

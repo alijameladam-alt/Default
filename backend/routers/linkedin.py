@@ -5,10 +5,14 @@ from fastapi.responses import RedirectResponse
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
 from backend.config import settings
+from backend.crypto import encrypt_token
+from backend import db
 from backend.models.schemas import (
     LinkedInProfileResponse,
     LinkedInPublishRequest,
     LinkedInPublishResponse,
+    SchedulePostRequest,
+    ScheduledPostResponse,
 )
 from backend.services import linkedin_service
 
@@ -17,6 +21,21 @@ router = APIRouter()
 _serializer = URLSafeTimedSerializer(settings.secret_key, salt="linkedin-oauth-state")
 STATE_MAX_AGE = 900  # 15 minutes
 
+
+def _row_to_response(row: dict) -> ScheduledPostResponse:
+    return ScheduledPostResponse(
+        id=row["id"],
+        topic=row["topic"],
+        linkedin_post=row["linkedin_post"],
+        scheduled_at=row["scheduled_at"],
+        status=row["status"],
+        post_url=row.get("post_url"),
+        error=row.get("error"),
+        created_at=row["created_at"],
+    )
+
+
+# ── OAuth ────────────────────────────────────────────────────────────────────
 
 @router.get("/linkedin/auth")
 async def linkedin_auth():
@@ -40,8 +59,7 @@ async def linkedin_callback(code: str, state: str):
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"Token exchange failed: {exc}")
 
-    # Pass the token to the frontend via query param (frontend stores in memory only)
-    redirect_url = f"{settings.frontend_url}/publish?token={access_token}"
+    redirect_url = f"{settings.frontend_url}/posts?token={access_token}"
     return RedirectResponse(url=redirect_url)
 
 
@@ -57,6 +75,8 @@ async def linkedin_profile(authorization: str = Header(...)):
     return LinkedInProfileResponse(**profile)
 
 
+# ── Immediate publish ─────────────────────────────────────────────────────────
+
 @router.post("/linkedin/publish", response_model=LinkedInPublishResponse)
 async def linkedin_publish(request: LinkedInPublishRequest):
     try:
@@ -68,3 +88,38 @@ async def linkedin_publish(request: LinkedInPublishRequest):
     except Exception as exc:
         raise HTTPException(status_code=502, detail=str(exc))
     return LinkedInPublishResponse(**result)
+
+
+# ── Scheduled posts ───────────────────────────────────────────────────────────
+
+@router.post("/linkedin/schedule", response_model=ScheduledPostResponse)
+async def schedule_post(request: SchedulePostRequest):
+    encrypted_token = encrypt_token(request.access_token)
+    try:
+        row = db.create_scheduled_post(
+            linkedin_post=request.linkedin_post,
+            topic=request.topic,
+            linkedin_id=request.linkedin_id,
+            access_token_encrypted=encrypted_token,
+            scheduled_at=request.scheduled_at,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+    return _row_to_response(row)
+
+
+@router.get("/linkedin/scheduled", response_model=list[ScheduledPostResponse])
+async def list_scheduled(linkedin_id: str | None = None):
+    rows = db.list_scheduled_posts(linkedin_id=linkedin_id)
+    return [_row_to_response(r) for r in rows]
+
+
+@router.delete("/linkedin/scheduled/{post_id}")
+async def cancel_scheduled(post_id: str):
+    cancelled = db.cancel_scheduled_post(post_id)
+    if not cancelled:
+        raise HTTPException(
+            status_code=404,
+            detail="Post not found or already published/cancelled.",
+        )
+    return {"message": "Post cancelled."}

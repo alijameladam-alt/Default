@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { LinkedInProfile } from '../types';
+import type { GeneratedPost, LinkedInProfile } from '../types';
 
 interface AppState {
   // Step 1-2: upload & transcription
@@ -8,24 +8,18 @@ interface AppState {
 
   // Step 3: generation
   summary: string | null;
-  linkedinPost: string | null;
-  wordCount: number;
-  wordCountWarning: boolean;
+  generatedPosts: GeneratedPost[];
 
-  // Step 4-5: LinkedIn
+  // LinkedIn auth (persists across pages)
   linkedinToken: string | null;
   linkedinProfile: LinkedInProfile | null;
-
-  // Published result
-  postUrl: string | null;
 
   // Actions
   setJobId: (id: string) => void;
   setTranscript: (text: string) => void;
-  setGenerated: (summary: string, post: string, wordCount: number, warning: boolean) => void;
-  setLinkedinPost: (post: string) => void;
+  setGenerated: (summary: string, posts: GeneratedPost[]) => void;
+  updatePost: (index: number, text: string) => void;
   setLinkedinAuth: (token: string, profile: LinkedInProfile) => void;
-  setPostUrl: (url: string) => void;
   reset: () => void;
 }
 
@@ -33,12 +27,9 @@ const initialState = {
   jobId: null,
   transcript: null,
   summary: null,
-  linkedinPost: null,
-  wordCount: 0,
-  wordCountWarning: false,
+  generatedPosts: [],
   linkedinToken: null,
   linkedinProfile: null,
-  postUrl: null,
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -46,11 +37,15 @@ export const useAppStore = create<AppState>((set) => ({
 
   setJobId: (id) => set({ jobId: id }),
   setTranscript: (text) => set({ transcript: text }),
-  setGenerated: (summary, post, wordCount, warning) =>
-    set({ summary, linkedinPost: post, wordCount, wordCountWarning: warning }),
-  setLinkedinPost: (post) => set({ linkedinPost: post }),
+  setGenerated: (summary, posts) => set({ summary, generatedPosts: posts }),
+  updatePost: (index, text) =>
+    set((state) => {
+      const posts = [...state.generatedPosts];
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      posts[index] = { ...posts[index], linkedin_post: text, word_count: words };
+      return { generatedPosts: posts };
+    }),
   setLinkedinAuth: (token, profile) =>
     set({ linkedinToken: token, linkedinProfile: profile }),
-  setPostUrl: (url) => set({ postUrl: url }),
   reset: () => set(initialState),
 }));

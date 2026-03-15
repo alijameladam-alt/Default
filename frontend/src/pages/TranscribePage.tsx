@@ -27,7 +27,7 @@ export function TranscribePage() {
   useEffect(() => {
     if (status === 'completed' && transcript) {
       setTranscript(transcript);
-      setTimeout(() => navigate('/generate'), 800);
+      setTimeout(() => navigate('/posts'), 800);
     }
   }, [status, transcript, setTranscript, navigate]);
 

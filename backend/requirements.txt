@@ -7,3 +7,5 @@ pydantic==2.8.0
 python-multipart==0.0.9
 itsdangerous==2.2.0
 python-magic==0.4.27
+apscheduler==3.10.4
+cryptography==43.0.1

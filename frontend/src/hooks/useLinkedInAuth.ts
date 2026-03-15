@@ -5,7 +5,9 @@ import { useAppStore } from '../store/useAppStore';
 
 export function useLinkedInAuth() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { linkedinToken, linkedinProfile, setLinkedinAuth } = useAppStore();
+  const linkedinToken = useAppStore((s) => s.linkedinToken);
+  const linkedinProfile = useAppStore((s) => s.linkedinProfile);
+  const setLinkedinAuth = useAppStore((s) => s.setLinkedinAuth);
 
   useEffect(() => {
     const token = searchParams.get('token');

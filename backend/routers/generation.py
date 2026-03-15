@@ -7,11 +7,11 @@ router = APIRouter()
 
 
 @router.post("/generate", response_model=GenerateResponse)
-async def generate_post(request: GenerateRequest):
+async def generate_posts(request: GenerateRequest):
     if not request.transcript.strip():
         raise HTTPException(status_code=400, detail="Transcript must not be empty.")
     try:
-        result = await claude_service.generate_linkedin_post(
+        result = await claude_service.generate_linkedin_posts(
             transcript=request.transcript,
             tone=request.tone,
         )
