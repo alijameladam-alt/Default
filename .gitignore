@@ -1,0 +1,20 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs
+*.log
+
+# Netlify CLI local state
+.netlify/
+
+# Node (only if tooling is ever added locally; the site itself uses none)
+node_modules/
+npm-debug.log*

@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fokal Edit · Fokal Studios</title>
+<meta name="description" content="The Fokal Edit: the Fokal Studios DaVinci Resolve training course. Our exact workflow and house style, taught through short videos.">
+
+<!-- Google Fonts (the only external dependency): Playfair Display for display, Inter for body and UI -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================================
+     THE FOKAL EDIT — styles
+     Strict monochrome editorial. No colour, no shadows, no gradients, no glow.
+     Palette is the only source of "tone": an ink/black + bone/white + grey ramp.
+     ========================================================================= */
+  :root {
+    --ink:    #0A0A0A;
+    --black:  #000000;
+    --bone:   #FAFAF7;
+    --white:  #FFFFFF;
+
+    /* neutral grey ramp */
+    --grey-900: #141414;
+    --grey-800: #1F1F1F;
+    --grey-700: #3A3A3A;
+    --grey-600: #5C5C5C;
+    --grey-500: #7A7A7A;
+    --grey-400: #9E9E9E;
+    --grey-300: #C4C4C4;
+    --grey-200: #E2E2E0;
+    --grey-100: #EEEEEC;
+
+    --sidebar-w: 340px;
+    --maxread: 720px;
+
+    --ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--bone);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--grey-600);
+  }
+
+  a { color: inherit; }
+
+  /* Visible keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  /* Hide focus ring for mouse users that don't support :focus-visible gracefully */
+  :focus:not(:focus-visible) { outline: none; }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* =========================================================================
+     LAYOUT
+     ========================================================================= */
+  .app {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    min-height: 100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    border-right: 1px solid var(--grey-200);
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+  }
+
+  .sidebar__head {
+    padding: 32px 28px 22px;
+    border-bottom: 1px solid var(--grey-200);
+    flex: 0 0 auto;
+  }
+
+  .brand-eyebrow {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .brand-title {
+    font-size: 1.9rem;
+    margin: 0 0 4px;
+  }
+
+  .brand-sub {
+    font-size: 0.82rem;
+    color: var(--grey-600);
+    margin: 0;
+  }
+
+  /* Progress */
+  .progress {
+    margin-top: 22px;
+  }
+  .progress__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.74rem;
+    color: var(--grey-600);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .progress__meta strong {
+    color: var(--ink);
+    font-size: 0.78rem;
+  }
+  .progress__track {
+    height: 4px;
+    background: var(--grey-200);
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .progress__fill {
+    height: 100%;
+    width: 0%;
+    background: var(--ink);
+    transition: width 0.4s var(--ease);
+  }
+
+  /* Search */
+  .search {
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--grey-200);
+    flex: 0 0 auto;
+  }
+  .search input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--grey-300);
+    background: var(--bone);
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-family: inherit;
+    border-radius: 0;
+  }
+  .search input::placeholder { color: var(--grey-500); }
+  .search input:focus { border-color: var(--ink); outline: none; }
+
+  /* Module list */
+  .modules {
+    overflow-y: auto;
+    flex: 1 1 auto;
+    padding: 8px 0 40px;
+  }
+
+  .module {
+    border-bottom: 1px solid var(--grey-100);
+  }
+
+  .module__head {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 16px 28px;
+    color: var(--ink);
+  }
+  .module__head:hover { background: var(--grey-100); }
+
+  .module__num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--grey-400);
+    flex: 0 0 auto;
+    width: 22px;
+  }
+  .module__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    flex: 1 1 auto;
+  }
+  .module__count {
+    font-size: 0.7rem;
+    color: var(--grey-500);
+    flex: 0 0 auto;
+    letter-spacing: 0.04em;
+  }
+  .module__chev {
+    flex: 0 0 auto;
+    transition: transform 0.25s var(--ease);
+    color: var(--grey-500);
+    font-size: 0.7rem;
+    margin-left: 2px;
+  }
+  .module.is-collapsed .module__chev { transform: rotate(-90deg); }
+
+  .module__lessons {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 8px;
+    overflow: hidden;
+  }
+  .module.is-collapsed .module__lessons { display: none; }
+
+  .lesson-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 9px 28px 9px 50px;
+    color: var(--grey-700);
+    font-size: 0.85rem;
+    line-height: 1.35;
+    position: relative;
+  }
+  .lesson-link:hover { background: var(--grey-100); color: var(--ink); }
+  .lesson-link.is-active {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .lesson-link.is-active .lesson-tick { border-color: var(--white); }
+  .lesson-link.is-active .lesson-tick.is-done { background: var(--white); }
+  .lesson-link.is-active .lesson-tick.is-done::after { border-color: var(--ink); }
+  .lesson-link.is-active .studio-dot { background: var(--white); }
+
+  .lesson-tick {
+    flex: 0 0 auto;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid var(--grey-400);
+    border-radius: 50%;
+    position: relative;
+  }
+  .lesson-tick.is-done { background: var(--ink); border-color: var(--ink); }
+  .lesson-tick.is-done::after {
+    content: "";
+    position: absolute;
+    left: 4px; top: 1px;
+    width: 4px; height: 8px;
+    border: solid var(--white);
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+  }
+
+  .lesson-label { flex: 1 1 auto; }
+
+  .studio-dot {
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--grey-500);
+    margin-left: 4px;
+  }
+
+  .no-results {
+    padding: 24px 28px;
+    color: var(--grey-500);
+    font-size: 0.85rem;
+    display: none;
+  }
+
+  /* ---------- Main pane ---------- */
+  .main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    display: none; /* shown on mobile only */
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--grey-200);
+    background: var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+  .topbar .brand-title { font-size: 1.1rem; margin: 0; }
+
+  .hamburger {
+    background: none;
+    border: 1px solid var(--grey-300);
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex: 0 0 auto;
+  }
+  .hamburger span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--ink);
+    position: relative;
+  }
+  .hamburger span::before, .hamburger span::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 1.5px;
+    background: var(--ink);
+  }
+  .hamburger span::before { top: -6px; }
+  .hamburger span::after  { top: 6px; }
+
+  .lesson-view {
+    flex: 1 1 auto;
+    padding: 56px 56px 80px;
+    width: 100%;
+    max-width: 1040px;
+  }
+
+  .lesson-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .lesson-eyebrow .studio-badge { margin-left: 0; }
+
+  .lesson-heading {
+    font-size: 2.6rem;
+    margin: 0 0 28px;
+    max-width: var(--maxread);
+  }
+
+  /* Studio badge */
+  .studio-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 3px 8px;
+  }
+  .studio-badge::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+
+  /* Player: fixed 16:9 frame, forces any embedded iframe to fill it */
+  .player {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    aspect-ratio: 16 / 9;
+    background: var(--ink);
+    border: 1px solid var(--grey-200);
+    overflow: hidden;
+  }
+  /* Fallback for browsers without aspect-ratio support */
+  @supports not (aspect-ratio: 16 / 9) {
+    .player { height: 0; padding-bottom: 56.25%; }
+  }
+  .player > iframe,
+  .player > video,
+  .player > embed,
+  .player > object {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0;
+  }
+
+  .player__empty {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 28px;
+    color: var(--grey-300);
+    background: var(--ink);
+  }
+  .player__empty strong {
+    color: var(--white);
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+  .player__empty code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.82rem;
+    color: var(--grey-100);
+    background: var(--grey-800);
+    padding: 1px 6px;
+  }
+  .player__empty p { margin: 6px 0 0; font-size: 0.85rem; max-width: 420px; }
+
+  /* Controls row under player */
+  .lesson-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+    max-width: 960px;
+  }
+
+  .btn-complete {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid var(--ink);
+    background: var(--white);
+    color: var(--ink);
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .btn-complete:hover { background: var(--grey-100); }
+  .btn-complete.is-done {
+    background: var(--ink);
+    color: var(--white);
+  }
+  .btn-complete .box {
+    width: 15px; height: 15px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    position: relative;
+    flex: 0 0 auto;
+  }
+  .btn-complete.is-done .box::after {
+    content: "";
+    position: absolute;
+    left: 4px; top: 1px;
+    width: 4px; height: 8px;
+    border: solid var(--ink);
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+  }
+
+  /* Notes */
+  .notes {
+    margin-top: 44px;
+    max-width: var(--maxread);
+  }
+  .notes h2 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--grey-600);
+    margin: 0 0 14px;
+  }
+  .notes__body { font-size: 0.98rem; color: var(--grey-800); }
+  .notes__body p { margin: 0 0 12px; }
+  .notes__body ul { margin: 0 0 12px; padding-left: 20px; }
+  .notes__body li { margin: 0 0 6px; }
+  .notes__empty { color: var(--grey-500); font-style: italic; }
+
+  /* Prev / next */
+  .lesson-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--grey-200);
+    max-width: 960px;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 6px 0;
+    text-align: left;
+    max-width: 46%;
+    color: var(--grey-700);
+  }
+  .nav-btn:hover:not(:disabled) { color: var(--ink); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .nav-btn .nav-dir {
+    display: block;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--grey-500);
+    margin-bottom: 3px;
+  }
+  .nav-btn.next { text-align: right; margin-left: auto; }
+  .nav-btn .nav-ttl {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+  }
+
+  /* Drawer scrim (mobile) */
+  .scrim {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,10,0.4);
+    z-index: 40;
+  }
+
+  /* =========================================================================
+     RESPONSIVE
+     ========================================================================= */
+  @media (max-width: 880px) {
+    .app { grid-template-columns: 1fr; }
+
+    .topbar { display: flex; }
+
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: min(340px, 86vw);
+      height: 100vh;
+      z-index: 50;
+      transform: translateX(-100%);
+      transition: transform 0.3s var(--ease);
+    }
+    .sidebar.is-open { transform: translateX(0); }
+    .sidebar.is-open ~ .scrim,
+    body.drawer-open .scrim { display: block; }
+
+    .lesson-view { padding: 32px 22px 64px; }
+    .lesson-heading { font-size: 1.9rem; }
+  }
+
+  @media (max-width: 480px) {
+    .lesson-heading { font-size: 1.6rem; }
+    .lesson-view { padding: 26px 18px 56px; }
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition-duration: 0.001ms !important;
+      animation-duration: 0.001ms !important;
+    }
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================ SIDEBAR ============================ -->
+  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
+    <div class="sidebar__head">
+      <span class="eyebrow brand-eyebrow">Fokal Studios</span>
+      <h1 class="brand-title">The Fokal Edit</h1>
+      <p class="brand-sub">The studio DaVinci Resolve workflow and house style.</p>
+
+      <div class="progress" aria-label="Overall progress">
+        <div class="progress__meta">
+          <span>Your progress</span>
+          <strong><span id="progressPct">0</span>%</strong>
+        </div>
+        <div class="progress__track">
+          <div class="progress__fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="search">
+      <label class="visually-hidden" for="searchInput">Search lessons</label>
+      <input type="search" id="searchInput" placeholder="Search lessons" autocomplete="off">
+    </div>
+
+    <nav class="modules" id="moduleList" aria-label="Modules"></nav>
+    <p class="no-results" id="noResults">No lessons match that search.</p>
+  </aside>
+
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ============================ MAIN ============================ -->
+  <div class="main">
+    <header class="topbar">
+      <button class="hamburger" id="hamburger" aria-label="Open course menu" aria-controls="sidebar" aria-expanded="false">
+        <span></span>
+      </button>
+      <h1 class="brand-title">The Fokal Edit</h1>
+    </header>
+
+    <main class="lesson-view" id="lessonView" tabindex="-1">
+      <!-- Lesson rendered here by JS -->
+    </main>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   THE FOKAL EDIT — app logic (vanilla JS, no framework, no build step)
+   The COURSE data object lives at the very bottom of this script.
+   To maintain the course you only ever edit COURSE.
+   ========================================================================= */
+(function () {
+  "use strict";
+
+  /* ---- Guarded storage: never throws in a sandboxed preview ---- */
+  var STORE_KEY = "fokal-edit-progress-v1";
+  function loadProgress() {
+    try {
+      var raw = window.localStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+  function saveProgress(obj) {
+    try {
+      window.localStorage.setItem(STORE_KEY, JSON.stringify(obj));
+    } catch (e) {
+      /* storage blocked (sandboxed preview): silently no-op */
+    }
+  }
+
+  var progress = loadProgress();           // { lessonId: true }
+  var flatLessons = [];                    // [{ ...lesson, moduleId, moduleTitle, moduleNum, index }]
+  var currentId = null;
+
+  /* ---- Build a flat, ordered index of every lesson ---- */
+  function buildIndex() {
+    flatLessons = [];
+    COURSE.modules.forEach(function (mod, mi) {
+      var num = String(mi + 1).padStart(2, "0");
+      mod.lessons.forEach(function (lesson) {
+        flatLessons.push({
+          id: lesson.id,
+          title: lesson.title,
+          embed: lesson.embed || "",
+          studioOnly: !!lesson.studioOnly,
+          notes: lesson.notes || "",
+          moduleId: mod.id,
+          moduleTitle: mod.title,
+          moduleNum: num,
+          index: flatLessons.length
+        });
+      });
+    });
+  }
+
+  function lessonById(id) {
+    for (var i = 0; i < flatLessons.length; i++) {
+      if (flatLessons[i].id === id) return flatLessons[i];
+    }
+    return null;
+  }
+
+  /* ---- Progress maths ---- */
+  function isDone(id) { return !!progress[id]; }
+  function doneCount(ids) {
+    return ids.reduce(function (n, id) { return n + (isDone(id) ? 1 : 0); }, 0);
+  }
+  function overallPct() {
+    if (!flatLessons.length) return 0;
+    var done = flatLessons.filter(function (l) { return isDone(l.id); }).length;
+    return Math.round((done / flatLessons.length) * 100);
+  }
+
+  /* ---- Small helpers ---- */
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  /* Render notes: \n = new line, lines starting with "- " become bullets */
+  function renderNotes(container, notes) {
+    container.innerHTML = "";
+    if (!notes || !notes.trim()) {
+      var p = el("p", "notes__empty", "No notes for this lesson yet.");
+      container.appendChild(p);
+      return;
+    }
+    var lines = notes.split("\n");
+    var list = null;
+    lines.forEach(function (line) {
+      var t = line.trim();
+      if (t.indexOf("- ") === 0) {
+        if (!list) { list = el("ul"); container.appendChild(list); }
+        list.appendChild(el("li", null, t.slice(2)));
+      } else {
+        list = null;
+        if (t) container.appendChild(el("p", null, t));
+      }
+    });
+  }
+
+  /* =======================================================================
+     SIDEBAR RENDER
+     ======================================================================= */
+  var moduleListEl = document.getElementById("moduleList");
+  var collapsed = {}; // moduleId -> bool
+
+  function renderSidebar() {
+    moduleListEl.innerHTML = "";
+
+    COURSE.modules.forEach(function (mod, mi) {
+      var num = String(mi + 1).padStart(2, "0");
+      var ids = mod.lessons.map(function (l) { return l.id; });
+
+      var moduleEl = el("section", "module");
+      moduleEl.dataset.moduleId = mod.id;
+      if (collapsed[mod.id]) moduleEl.classList.add("is-collapsed");
+
+      // header (collapsible)
+      var head = el("button", "module__head");
+      head.setAttribute("aria-expanded", collapsed[mod.id] ? "false" : "true");
+      head.appendChild(el("span", "module__num", num));
+      head.appendChild(el("span", "module__title", mod.title));
+      head.appendChild(el("span", "module__count",
+        doneCount(ids) + "/" + ids.length));
+      head.appendChild(el("span", "module__chev", "▼"));
+      head.addEventListener("click", function () {
+        collapsed[mod.id] = !collapsed[mod.id];
+        moduleEl.classList.toggle("is-collapsed", collapsed[mod.id]);
+        head.setAttribute("aria-expanded", collapsed[mod.id] ? "false" : "true");
+      });
+      moduleEl.appendChild(head);
+
+      // lessons
+      var ul = el("ul", "module__lessons");
+      mod.lessons.forEach(function (lesson) {
+        var li = el("li");
+        var btn = el("button", "lesson-link");
+        btn.dataset.lessonId = lesson.id;
+        btn.dataset.search = (lesson.title + " " + mod.title).toLowerCase();
+        if (lesson.id === currentId) btn.classList.add("is-active");
+
+        var tick = el("span", "lesson-tick" + (isDone(lesson.id) ? " is-done" : ""));
+        btn.appendChild(tick);
+        btn.appendChild(el("span", "lesson-label", lesson.title));
+        if (lesson.studioOnly) {
+          var dot = el("span", "studio-dot");
+          dot.title = "Studio only";
+          btn.appendChild(dot);
+        }
+        btn.addEventListener("click", function () {
+          openLesson(lesson.id);
+          closeDrawer();
+        });
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+      moduleEl.appendChild(ul);
+      moduleListEl.appendChild(moduleEl);
+    });
+
+    updateProgressUI();
+  }
+
+  function updateProgressUI() {
+    var pct = overallPct();
+    document.getElementById("progressPct").textContent = pct;
+    document.getElementById("progressFill").style.width = pct + "%";
+
+    // refresh per-module counts and ticks without full re-render
+    COURSE.modules.forEach(function (mod) {
+      var ids = mod.lessons.map(function (l) { return l.id; });
+      var sec = moduleListEl.querySelector('[data-module-id="' + mod.id + '"]');
+      if (!sec) return;
+      var count = sec.querySelector(".module__count");
+      if (count) count.textContent = doneCount(ids) + "/" + ids.length;
+    });
+    flatLessons.forEach(function (l) {
+      var btn = moduleListEl.querySelector('.lesson-link[data-lesson-id="' + l.id + '"]');
+      if (!btn) return;
+      var tick = btn.querySelector(".lesson-tick");
+      if (tick) tick.classList.toggle("is-done", isDone(l.id));
+    });
+  }
+
+  function setActiveLink(id) {
+    var links = moduleListEl.querySelectorAll(".lesson-link");
+    links.forEach(function (b) {
+      b.classList.toggle("is-active", b.dataset.lessonId === id);
+    });
+  }
+
+  /* =======================================================================
+     LESSON VIEW RENDER
+     ======================================================================= */
+  var view = document.getElementById("lessonView");
+
+  function openLesson(id) {
+    var lesson = lessonById(id);
+    if (!lesson) return;
+    currentId = id;
+    setActiveLink(id);
+    renderLesson(lesson);
+
+    // remember last lesson (guarded)
+    try { window.localStorage.setItem("fokal-edit-last", id); } catch (e) {}
+
+    // move focus to the heading region for keyboard users
+    view.focus({ preventScroll: false });
+    view.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+
+  function renderLesson(lesson) {
+    view.innerHTML = "";
+
+    // Eyebrow: module number + title (+ studio badge)
+    var eyebrowRow = el("div", "lesson-eyebrow");
+    eyebrowRow.appendChild(el("span", "eyebrow",
+      "Module " + lesson.moduleNum + " · " + lesson.moduleTitle));
+    if (lesson.studioOnly) {
+      var badge = el("span", "studio-badge", "Studio");
+      eyebrowRow.appendChild(badge);
+    }
+    view.appendChild(eyebrowRow);
+
+    // Heading
+    view.appendChild(el("h2", "lesson-heading", lesson.title));
+
+    // Player
+    var player = el("div", "player");
+    if (lesson.embed && lesson.embed.trim()) {
+      player.innerHTML = lesson.embed;
+    } else {
+      var empty = el("div", "player__empty");
+      empty.appendChild(el("strong", null, "No video linked yet"));
+      var p = el("p");
+      p.innerHTML = "Add an embed code for lesson <code>" + lesson.id +
+        "</code> in the <code>embed</code> field of the COURSE data block.";
+      empty.appendChild(p);
+      player.appendChild(empty);
+    }
+    view.appendChild(player);
+
+    // Controls: mark complete
+    var controls = el("div", "lesson-controls");
+    var btn = el("button", "btn-complete" + (isDone(lesson.id) ? " is-done" : ""));
+    btn.setAttribute("aria-pressed", isDone(lesson.id) ? "true" : "false");
+    var box = el("span", "box");
+    var lbl = el("span", "lbl", isDone(lesson.id) ? "Completed" : "Mark complete");
+    btn.appendChild(box);
+    btn.appendChild(lbl);
+    btn.addEventListener("click", function () {
+      toggleComplete(lesson.id, btn, lbl);
+    });
+    controls.appendChild(btn);
+    view.appendChild(controls);
+
+    // Notes
+    var notes = el("section", "notes");
+    notes.appendChild(el("h2", null, "Lesson notes"));
+    var body = el("div", "notes__body");
+    renderNotes(body, lesson.notes);
+    notes.appendChild(body);
+    view.appendChild(notes);
+
+    // Prev / next
+    var nav = el("nav", "lesson-nav");
+    nav.setAttribute("aria-label", "Lesson navigation");
+    var prev = flatLessons[lesson.index - 1] || null;
+    var next = flatLessons[lesson.index + 1] || null;
+
+    var prevBtn = el("button", "nav-btn prev");
+    prevBtn.appendChild(el("span", "nav-dir", "Previous"));
+    prevBtn.appendChild(el("span", "nav-ttl", prev ? prev.title : "Start of course"));
+    if (prev) { prevBtn.addEventListener("click", function () { openLesson(prev.id); }); }
+    else { prevBtn.disabled = true; }
+
+    var nextBtn = el("button", "nav-btn next");
+    nextBtn.appendChild(el("span", "nav-dir", "Next"));
+    nextBtn.appendChild(el("span", "nav-ttl", next ? next.title : "End of course"));
+    if (next) { nextBtn.addEventListener("click", function () { openLesson(next.id); }); }
+    else { nextBtn.disabled = true; }
+
+    nav.appendChild(prevBtn);
+    nav.appendChild(nextBtn);
+    view.appendChild(nav);
+  }
+
+  function toggleComplete(id, btn, lbl) {
+    if (progress[id]) { delete progress[id]; }
+    else { progress[id] = true; }
+    saveProgress(progress);
+    var done = isDone(id);
+    btn.classList.toggle("is-done", done);
+    btn.setAttribute("aria-pressed", done ? "true" : "false");
+    lbl.textContent = done ? "Completed" : "Mark complete";
+    updateProgressUI();
+  }
+
+  /* =======================================================================
+     SEARCH
+     ======================================================================= */
+  var searchInput = document.getElementById("searchInput");
+  var noResults = document.getElementById("noResults");
+
+  searchInput.addEventListener("input", function () {
+    var q = searchInput.value.trim().toLowerCase();
+    var anyVisible = false;
+
+    moduleListEl.querySelectorAll(".module").forEach(function (sec) {
+      var visibleInModule = 0;
+      sec.querySelectorAll(".lesson-link").forEach(function (btn) {
+        var match = !q || btn.dataset.search.indexOf(q) !== -1;
+        btn.parentElement.style.display = match ? "" : "none";
+        if (match) { visibleInModule++; anyVisible = true; }
+      });
+      // hide whole module if nothing matches; expand modules while searching
+      sec.style.display = visibleInModule ? "" : "none";
+      if (q) {
+        sec.classList.remove("is-collapsed");
+      } else {
+        sec.classList.toggle("is-collapsed", !!collapsed[sec.dataset.moduleId]);
+      }
+    });
+
+    noResults.style.display = anyVisible ? "none" : "block";
+  });
+
+  /* =======================================================================
+     MOBILE DRAWER
+     ======================================================================= */
+  var sidebar = document.getElementById("sidebar");
+  var hamburger = document.getElementById("hamburger");
+  var scrim = document.getElementById("scrim");
+
+  function openDrawer() {
+    sidebar.classList.add("is-open");
+    document.body.classList.add("drawer-open");
+    hamburger.setAttribute("aria-expanded", "true");
+  }
+  function closeDrawer() {
+    sidebar.classList.remove("is-open");
+    document.body.classList.remove("drawer-open");
+    hamburger.setAttribute("aria-expanded", "false");
+  }
+  hamburger.addEventListener("click", function () {
+    if (sidebar.classList.contains("is-open")) closeDrawer();
+    else openDrawer();
+  });
+  scrim.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeDrawer();
+  });
+
+  /* =======================================================================
+     INIT
+     ======================================================================= */
+  function init() {
+    buildIndex();
+    renderSidebar();
+
+    // restore last viewed lesson if it still exists, else first lesson
+    var last = null;
+    try { last = window.localStorage.getItem("fokal-edit-last"); } catch (e) {}
+    var startId = (last && lessonById(last)) ? last
+      : (flatLessons[0] ? flatLessons[0].id : null);
+    if (startId) openLesson(startId);
+  }
+
+  /* =======================================================================
+     =======================================================================
+     COURSE  —  THE ONLY THING YOU EDIT TO MAINTAIN THIS SITE
+     =======================================================================
+     =======================================================================
+
+     HOW TO ADD A LESSON
+       Copy one lesson block { ... } and paste it into the right module's
+       "lessons" array. Give it a unique "id" (short, no spaces).
+
+     HOW TO ADD A MODULE
+       Copy one module block { id, title, lessons: [...] } into "modules".
+       Module numbers (01, 02 ...) generate automatically from order.
+
+     HOW TO PASTE AN EMBED CODE
+       Paste the FULL embed code the host gives you (the whole <iframe ...>,
+       or a <div>/<script> Wistia/Loom block) BETWEEN THE BACKTICKS of the
+       "embed" field. Backticks let the quotes inside the embed survive.
+       Any host works (YouTube, Vimeo, Wistia, Loom, ...). The player forces
+       whatever you paste to fill the 16:9 frame. Leave it empty (``) until
+       the video exists and the lesson shows a tidy "no video linked yet" state.
+
+     LESSON SHAPE
+       {
+         id: "unique-tag",     // short, no spaces
+         title: "Shown in menu and heading",
+         embed: ``,            // paste the full embed code inside these backticks
+         studioOnly: false,    // true shows the blue Studio badge
+         notes: ""             // optional. \n = new line, "- " prefix = a bullet
+       }
+     ======================================================================= */
+  var COURSE = {
+    modules: [
+
+      {
+        id: "start-here",
+        title: "Start here",
+        lessons: [
+          {
+            id: "welcome",
+            title: "Welcome and what this covers",
+            embed: ``,
+            studioOnly: false,
+            notes: "Welcome to The Fokal Edit. This is the exact DaVinci Resolve workflow we use at Fokal Studios, taught through short videos.\nWork through the modules in order. They build on each other.\n- Tick lessons off as you go. Your progress is saved on this device.\n- Lessons marked Studio need the paid version of DaVinci Resolve.\n- Search any lesson from the box on the left."
+          },
+          {
+            id: "fokal-style",
+            title: "The Fokal style",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "free-vs-studio",
+            title: "Resolve Free vs Studio",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          }
+        ]
+      },
+
+      {
+        id: "setup",
+        title: "Setup and project organisation",
+        lessons: [
+          {
+            id: "project-settings",
+            title: "Project settings and timeline setup",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "importing-media",
+            title: "Importing and organising media",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "proxy-media",
+            title: "Proxy and optimised media",
+            embed: ``,
+            studioOnly: true,
+            notes: ""
+          }
+        ]
+      },
+
+      {
+        id: "the-edit",
+        title: "The edit",
+        lessons: [
+          {
+            id: "cut-vs-edit",
+            title: "Cut page vs edit page",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "assembly-pacing",
+            title: "Assembly and pacing",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "j-and-l-cuts",
+            title: "J and L cuts and tightening",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          }
+        ]
+      },
+
+      {
+        id: "b-roll",
+        title: "B-roll",
+        lessons: [
+          {
+            id: "sourcing-layering",
+            title: "Sourcing and layering B-roll",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "speed-ramps",
+            title: "Speed ramps and the B-roll look",
+            embed: ``,
+            studioOnly: true,
+            notes: ""
+          }
+        ]
+      },
+
+      {
+        id: "text-captions",
+        title: "Text and captions",
+        lessons: [
+          {
+            id: "motion-text-pro",
+            title: "Motion Text Pro setup",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "caption-style",
+            title: "Coolvetica and our caption style",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "auto-captions",
+            title: "AI auto-captions",
+            embed: ``,
+            studioOnly: true,
+            notes: ""
+          }
+        ]
+      },
+
+      {
+        id: "colour",
+        title: "Colour grading",
+        lessons: [
+          {
+            id: "powergrade-explained",
+            title: "The 12-node PowerGrade explained",
+            embed: ``,
+            studioOnly: true,
+            notes: ""
+          },
+          {
+            id: "applying-grade",
+            title: "Applying and balancing the grade",
+            embed: ``,
+            studioOnly: true,
+            notes: ""
+          },
+          {
+            id: "tweaking-per-shot",
+            title: "Tweaking per shot",
+            embed: ``,
+            studioOnly: true,
+            notes: ""
+          }
+        ]
+      },
+
+      {
+        id: "audio",
+        title: "Audio",
+        lessons: [
+          {
+            id: "levels-music-ducking",
+            title: "Levels, music and ducking",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "voice-cleanup",
+            title: "Voice cleanup and sweetening",
+            embed: ``,
+            studioOnly: true,
+            notes: ""
+          }
+        ]
+      },
+
+      {
+        id: "fusion",
+        title: "Fusion",
+        lessons: [
+          {
+            id: "fusion-basics",
+            title: "Fusion basics for editors",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "animated-titles",
+            title: "Animated titles and graphics",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          }
+        ]
+      },
+
+      {
+        id: "export-delivery",
+        title: "Export and delivery",
+        lessons: [
+          {
+            id: "render-social",
+            title: "Render settings for social",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          },
+          {
+            id: "frameio-handoff",
+            title: "Frame.io review and client handoff",
+            embed: ``,
+            studioOnly: false,
+            notes: ""
+          }
+        ]
+      }
+
+    ]
+  };
+  /* ===================== END OF COURSE DATA BLOCK ===================== */
+
+  init();
+})();
+</script>
+</body>
+</html>
