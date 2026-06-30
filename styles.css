@@ -170,6 +170,41 @@ body {
 .swatch--light { color: var(--ink); border: 1px solid rgba(0,0,0,.06); }
 
 /* ---------------------------- GRID ------------------------------ */
+/* ----------------------- PACKAGING ------------------------------ */
+.pack-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+  align-items: start;
+}
+.pack {
+  margin: 0;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 12px 28px -20px rgba(0,0,0,.5);
+}
+.pack img { width: 100%; height: auto; display: block; }
+.pack figcaption {
+  padding: 12px 16px 16px;
+  font-size: .85rem;
+  font-weight: 500;
+  color: #5a6b66;
+}
+.pack-note {
+  margin: 26px auto 0;
+  max-width: 680px;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+@media (max-width: 600px) {
+  .pack-grid { grid-template-columns: 1fr; }
+}
+
 /* Masonry (Pinterest-style) columns — every image shows in full, no cropping */
 .grid {
   column-count: 3;
