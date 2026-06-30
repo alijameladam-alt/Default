@@ -10,6 +10,7 @@ brand. No build step, no frameworks — just open `index.html`.
 - **Colour palette** — editable hex swatches
 - **Visual texture** — a masonry photo grid (self-hosted images)
 - **Motion & mood** — embedded reference videos (YouTube / Vimeo)
+- **On Social** — live Instagram reel embeds (currently @h2coco)
 - **Live from Pinterest** — an optional live board embed
 - **Typography** — font specimens
 
@@ -42,7 +43,14 @@ Keep `tile--tall` / `tile--wide` to shape the layout.
 On YouTube: **Share → Embed → copy the iframe**, or just swap the video ID in
 `https://www.youtube.com/embed/VIDEO_ID`. Vimeo works the same way.
 
-### 3. Pinterest
+### 3. Instagram reels
+Copy a reel/post URL and add a block inside `.social-grid`:
+```html
+<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/REEL_ID/" data-instgrm-version="14"></blockquote>
+```
+Instagram's `embed.js` (already loaded) renders the full card automatically.
+
+### 4. Pinterest
 Replace the `href` in the `data-pin-do="embedBoard"` block with the brand's
 real board URL. The Pinterest script renders it automatically.
 

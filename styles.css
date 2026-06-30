@@ -231,6 +231,20 @@ body {
 }
 .caption { margin: 12px 2px 0; font-size: .9rem; color: #5a6b66; }
 
+/* -------------------------- INSTAGRAM --------------------------- */
+.social-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+.social-grid .instagram-media {
+  flex: 1 1 320px;
+  max-width: 360px !important;
+  min-width: 300px !important;
+  margin: 0 !important;
+}
+
 /* -------------------------- PINTEREST --------------------------- */
 .pin-wrap {
   background: #fff;
