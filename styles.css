@@ -170,25 +170,25 @@ body {
 .swatch--light { color: var(--ink); border: 1px solid rgba(0,0,0,.06); }
 
 /* ---------------------------- GRID ------------------------------ */
+/* Masonry (Pinterest-style) columns — every image shows in full, no cropping */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 200px;
-  gap: var(--gap);
+  column-count: 3;
+  column-gap: var(--gap);
 }
 .tile {
+  display: block;
+  width: 100%;
+  margin: 0 0 var(--gap);
+  break-inside: avoid;          /* don't split an image across columns */
   border-radius: var(--radius);
   overflow: hidden;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-align: center;
 }
-.tile { margin: 0; }
-.tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.tile--tall { grid-row: span 2; }
-.tile--wide { grid-column: span 2; }
+/* full image at its natural aspect ratio */
+.tile img { width: 100%; height: auto; display: block; }
+/* span classes are irrelevant in a column layout — neutralise them */
+.tile--tall, .tile--wide { grid-row: auto; grid-column: auto; }
 
 .tile figcaption {
   position: absolute;
@@ -367,11 +367,9 @@ code {
 
 /* -------------------------- RESPONSIVE -------------------------- */
 @media (max-width: 760px) {
-  .grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
-  .tile--wide { grid-column: span 2; }
+  .grid { column-count: 2; }
   .section { padding: 64px 20px; }
 }
-@media (max-width: 420px) {
-  .grid { grid-template-columns: 1fr; }
-  .tile--wide, .tile--tall { grid-column: auto; grid-row: auto; }
+@media (max-width: 480px) {
+  .grid { column-count: 1; }
 }
