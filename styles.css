@@ -1,18 +1,19 @@
 /* ============================================================
-   Coconut Water — Mood Board
-   Fresh & tropical, with a clean premium feel.
+   CocoPure — Mood Board
+   Bright turquoise + white. Minimal, bold, playful.
    ============================================================ */
 
 :root {
-  --lagoon: #0E5D57;
-  --green:  #7BC4A4;
-  --ocean:  #34A0C9;
-  --cream:  #F4EFE6;
-  --sand:   #E8D9B5;
-  --sun:    #F2A65A;
-  --ink:    #15302C;
+  --lagoon: #0B8285;   /* deep turquoise — titles, footer, anchors */
+  --green:  #4FD6D1;   /* light mint-turquoise accent */
+  --ocean:  #16C4C9;   /* brand turquoise (primary) */
+  --cream:  #F6F7F5;   /* coconut white background */
+  --sand:   #F0C6D0;   /* lychee pink accent */
+  --sun:    #E9695C;   /* watermelon coral accent */
+  --ink:    #123A3B;   /* dark teal ink for text */
 
-  --serif: "Fraunces", Georgia, serif;
+  /* --serif holds the bold rounded display face (echoes the wordmark) */
+  --serif: "Baloo 2", system-ui, sans-serif;
   --sans:  "Inter", system-ui, -apple-system, sans-serif;
 
   --max: 1180px;
@@ -42,11 +43,11 @@ body {
   justify-content: center;
   padding: 40px 24px;
   text-align: center;
-  color: var(--cream);
+  color: #fff;
   background:
-    radial-gradient(120% 80% at 80% 10%, rgba(242,166,90,.55), transparent 55%),
-    radial-gradient(120% 90% at 10% 90%, rgba(52,160,201,.6), transparent 55%),
-    linear-gradient(160deg, var(--lagoon), #0a423e 70%);
+    radial-gradient(120% 80% at 85% 8%, rgba(240,198,208,.55), transparent 55%),  /* lychee glow */
+    radial-gradient(120% 90% at 8% 92%, rgba(233,105,92,.40), transparent 55%),   /* watermelon glow */
+    linear-gradient(155deg, #1ED0D4, #0B8285 78%);
   overflow: hidden;
 }
 
@@ -63,20 +64,21 @@ body {
 
 .hero__title {
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(3rem, 11vw, 7.5rem);
-  line-height: .95;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(3.4rem, 13vw, 9rem);
+  line-height: .82;
   margin: 0;
-  letter-spacing: -.02em;
+  letter-spacing: -.01em;
 }
 
 .hero__tagline {
-  font-family: var(--serif);
-  font-size: clamp(1.1rem, 2.6vw, 1.7rem);
-  font-weight: 400;
-  margin: 24px auto 0;
+  font-family: var(--sans);
+  font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+  font-weight: 500;
+  margin: 26px auto 0;
   max-width: 560px;
-  opacity: .92;
+  opacity: .95;
 }
 
 .hero__meta {
@@ -108,9 +110,9 @@ body {
 
 .section__title {
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(1.6rem, 4vw, 2.6rem);
-  letter-spacing: -.01em;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 4.2vw, 2.7rem);
+  letter-spacing: -.005em;
   margin: 0 0 10px;
   color: var(--lagoon);
 }
@@ -122,13 +124,14 @@ body {
 }
 
 .lede {
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 500;
   font-size: clamp(1.15rem, 2.4vw, 1.5rem);
   line-height: 1.5;
   color: var(--ink);
   margin: 0 0 28px;
 }
-.lede em { color: var(--ocean); font-style: italic; }
+.lede em { color: var(--ocean); font-weight: 700; font-style: normal; }
 
 /* keywords */
 .keywords {
@@ -139,7 +142,7 @@ body {
   gap: 10px;
 }
 .keywords li {
-  border: 1px solid rgba(14,93,87,.25);
+  border: 1px solid rgba(11,130,133,.3);
   color: var(--lagoon);
   padding: 7px 16px;
   border-radius: 999px;
@@ -287,7 +290,7 @@ body {
   border-radius: var(--radius);
   overflow: hidden;
   text-decoration: none;
-  background: #0a423e;
+  background: var(--lagoon);
   box-shadow: 0 12px 28px -18px rgba(0,0,0,.6);
   transition: transform .25s ease, box-shadow .25s ease;
 }
@@ -367,7 +370,7 @@ body {
 
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  background: rgba(14,93,87,.1);
+  background: rgba(11,130,133,.12);
   padding: 1px 6px;
   border-radius: 5px;
   font-size: .85em;
