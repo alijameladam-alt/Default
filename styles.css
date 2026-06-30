@@ -204,6 +204,21 @@ body {
 @media (max-width: 600px) {
   .pack-grid { grid-template-columns: 1fr; }
 }
+.pack-shelf {
+  margin: 30px 0 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 16px 34px -20px rgba(0,0,0,.55);
+}
+.pack-shelf img { width: 100%; height: auto; display: block; }
+.pack-shelf figcaption {
+  padding: 14px 18px;
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--cream);
+  background: var(--lagoon);
+  text-align: center;
+}
 
 /* Masonry (Pinterest-style) columns — every image shows in full, no cropping */
 .grid {
