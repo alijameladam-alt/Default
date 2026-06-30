@@ -237,13 +237,33 @@ body {
   flex-wrap: wrap;
   gap: 24px;
   justify-content: center;
+  align-items: flex-start;
 }
 .social-grid .instagram-media {
-  flex: 1 1 320px;
-  max-width: 360px !important;
-  min-width: 300px !important;
-  margin: 0 !important;
+  flex: 0 1 340px;
 }
+
+/* Fallback card shown before/if Instagram's script renders the embed */
+.ig-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 460px;
+  padding: 24px;
+  text-align: center;
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--lagoon);
+  text-decoration: none;
+  border: 1px solid rgba(14,93,87,.15);
+  border-radius: 10px;
+  background:
+    linear-gradient(150deg, rgba(123,196,164,.18), rgba(52,160,201,.18));
+}
+.ig-fallback::before {
+  content: "▶  ";
+}
+.ig-fallback:hover { background: linear-gradient(150deg, rgba(123,196,164,.32), rgba(52,160,201,.32)); }
 
 /* -------------------------- PINTEREST --------------------------- */
 .pin-wrap {
